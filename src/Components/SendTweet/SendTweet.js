@@ -9,7 +9,7 @@ import FormSendTweet from '../FormSendTweet'
 import {TWEETS_STORAGE} from '../../utils/constant'
 
 export default (props) => {
-  const {setToastPop} = props
+  const {setToastPop, allTweets} = props
   const [isOpenModal, setIsOpenmodal] = useState(false)
 
 
@@ -19,7 +19,12 @@ export default (props) => {
   const sendTweet = (event, formValue) => {
     event.preventDefault()
     const {name, tweet} = formValue
-    let allTweets = []
+    let allTweetsArray = []
+
+    if(allTweets){
+      allTweetsArray = allTweets
+    }
+
     if(!name || !tweet){
       setToastPop({
         open: true,
@@ -28,9 +33,9 @@ export default (props) => {
       // alert('todos los campos son obligatorios')
     } else {
       formValue.time = moment()
-      allTweets.push(formValue)
-      localStorage.setItem(TWEETS_STORAGE, JSON.stringify( allTweets));
-      localStorage.setItem('data', JSON.stringify(allTweets))
+      allTweetsArray.push(formValue)
+      localStorage.setItem(TWEETS_STORAGE, JSON.stringify( allTweetsArray));
+      // localStorage.setItem('data', JSON.stringify(allTweetsArray))
       setToastPop({
         open: true,
         text: "Tweet guardado en el LocalStorage"
@@ -38,7 +43,7 @@ export default (props) => {
       console.log('tweet guardado en el LS')
       closeModal()
     }
-    allTweets = []
+    allTweetsArray = []
   }
   
 
